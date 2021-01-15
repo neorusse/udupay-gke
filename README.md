@@ -60,16 +60,14 @@ Install packages
 ```bash
 npm i
 ```
+
+### Database setup
+
 Create a postgres database and user
-Create .env file in your root directory and Change DATABASE_URL to suite your connection
 
-- Change user to your username
-- Change password to your postgresql password
-- Change database to your desired database name
+Using the .env.sample file as a guide, create a .env file in your root directory
+and update the database variables.
 
-```bash
-DATABASE_URL='postgresql://user:password@localhost/database'
-```
 Create the database tables by running
 
 ```bash
@@ -106,7 +104,7 @@ This project uses [Jest](https://jestjs.io/) and [Cypress](https://www.cypress.i
 To execute tests:
 
 ```bash
-yarn test
+npm test
 ```
 
 ### Credit Card details for making demo payment
