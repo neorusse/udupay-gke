@@ -1,0 +1,37 @@
+version: '3.6'
+
+services:
+  # Backend API
+  udupay-backend:
+    container_name: udupayAPI
+    build: ./
+    environment:
+      DATABASE_URL: postgres://'':''@postgres:5432/''
+      NODE_ENV: development
+      PORT: 3050
+    links:
+      - postgres
+    ports:
+      - '3050:3050'
+
+    command: npm run dev
+
+    working_dir: /usr/src/udupay-api
+
+    # enables our container filesystem to see local dev changes & updates itself
+    volumes:
+      - ./usr/src/udupay-api/node_modules
+      - ./:/usr/src/udupay-api
+
+  # Database - Postgres
+  postgres:
+    container_name: udupayDB
+    image: postgres
+    # postgres default port
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      POSTGRES_DB:
+      POSTGRES_HOST:
