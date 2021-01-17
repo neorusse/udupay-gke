@@ -10,8 +10,9 @@ variable "zone" {
   description = "zone"
 }
 
-variable "gcp_auth_file" {
-  description = "gcp_auth_file"
+variable "cluster_name" {
+  type    = string
+  default = "udupay-gke"
 }
 
 variable "min_node_count" {
@@ -41,10 +42,5 @@ variable "billing_account_id" {
 
 variable "k8s_version" {
   type    = string
-  default = "1.17.12-gke.1501"
-}
-
-variable "destroy" {
-  type    = bool
-  default = true
+  default = "1.16.15-gke.6000"
 }
