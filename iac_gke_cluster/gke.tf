@@ -3,16 +3,15 @@ terraform {
   backend "gcs" {
     bucket      = "udupay-gcs"
     prefix      = "terraform/state"
-    credentials = file(var.gcp_auth_file)
+    access_token  = ""
   }
 }
 
 # GKE Master cluster
 resource "google_container_cluster" "primary" {
-  # count below means -> create resource if destroy is set to false, or destroy it if it’s set to true.
-  count                     = var.destroy == true ? 0 : 1
-  name                      = "${var.project_id}-gke"
-  location                  = var.region
+  name                      = var.cluster_name
+  #location                  = var.region
+  location                  = var.zone
   min_master_version        = var.k8s_version
   remove_default_node_pool  = true
   initial_node_count        = 1
@@ -34,12 +33,17 @@ resource "google_container_cluster" "primary" {
 
 # Separately Managed Worker Node Pool
 resource "google_container_node_pool" "primary_nodes" {
-  count      = var.destroy == true ? 0 : 1
-  name       = "${google_container_cluster.primary.name}-nodpool"
-  location   = var.region
-  cluster    = google_container_cluster.primary[0].name
+  name       = var.cluster_name
+  #location   = var.region
+  location   = var.zone
+  cluster    = google_container_cluster.primary.name
   version    = var.k8s_version
   node_count = var.min_node_count
+
+  # node_locations = [
+  #   "europe-west2-a",
+  #   "europe-west2-b"
+  # ]
 
   # Enables logging & monitoring
   node_config {
@@ -55,20 +59,20 @@ resource "google_container_node_pool" "primary_nodes" {
       env = var.project_id
     }
 
-    autoscaling {
-      min_node_count = var.min_node_count
-      max_node_count = var.max_node_count
-    }
-
-    management {
-      auto_upgrade = false
-    }
-
     tags = ["gke-node", "${var.project_id}-gke"]
 
     metadata = {
       disable-legacy-endpoints = "true"
     }
-
   }
+
+  autoscaling {
+    min_node_count = var.min_node_count
+    max_node_count = var.max_node_count
+  }
+
+  management {
+    auto_upgrade = false
+  }
+
 }
