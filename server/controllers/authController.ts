@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import crypto from 'crypto';
+import pino from 'pino';
 
 import {
   getUserByEmail,
@@ -17,6 +18,14 @@ import {
 } from '../helpers/appService';
 
 import sendForgetPasswordMail from '../utils/sendForgetPasswordMail';
+
+// Configure pino
+const logger = pino({
+  name: 'user-auth',
+  messageKey: 'message',
+  changeLevelName: 'severity',
+  useLevelLabels: true,
+});
 
 /**
  * User Signup
@@ -105,6 +114,8 @@ export async function login(req: Request, res: Response) {
     res.status(200).json({
       token,
     });
+
+    logger.info(`User ${user[0].firstname} ${user[0].lastname} logged in`);
 
     return;
   } catch (error) {

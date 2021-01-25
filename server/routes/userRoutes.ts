@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import pino from 'pino';
 
 import { validateSignup, validateLogin, validate } from '../helpers/validator';
 import {
@@ -25,6 +26,14 @@ import { auth, adminAuth } from '../middleware/auth';
 import sendSignUpMail from '../utils/sendSignUpMail';
 
 const router = Router();
+
+// Configure pino
+const logger = pino({
+  name: 'user-auth',
+  messageKey: 'message',
+  changeLevelName: 'severity',
+  useLevelLabels: true,
+});
 
 /**
  * User Signup Route
@@ -94,6 +103,10 @@ router.post(
       res.status(status).json({
         token,
       });
+
+      logger.info(
+        `New user: ${payload.firstname} ${payload.lastname} successfully registered`,
+      );
 
       return;
     } catch (error) {
