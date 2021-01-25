@@ -47,6 +47,8 @@ React - React is a JavaScript library for building user interfaces. It is mainta
 
 TypeScript - TypeScript is an open-source programming language developed and maintained by Microsoft. It is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript.
 
+Pino - NodeJs Logger
+
 Docker - Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
 
 CircleCI - Prides itself as the best continuous integration and delivery platform for Linux, macOS, and Android, in the cloud or self-hosted.
