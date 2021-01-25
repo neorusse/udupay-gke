@@ -31,6 +31,7 @@
   "dependencies": {
     "@databases/pg": "^2.0.0",
     "@sendgrid/mail": "6.5.3",
+    "@types/pino": "^6.3.5",
     "bcrypt": "^3.0.7",
     "chalk-pipe": "^3.0.0",
     "compression": "^1.7.4",
@@ -45,6 +46,7 @@
     "node-pg-migrate": "^4.1.0",
     "nodemailer": "^6.4.2",
     "pg": "^7.15.1",
+    "pino": "^6.11.0",
     "readline-sync": "1.4.10",
     "sharp": "^0.23.4"
   },
